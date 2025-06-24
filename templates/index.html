@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<!-- Header / Navbar -->
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4 px-md-5">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold text-primary" href="{{ url_for('index') }}">StockEase</a>
+      <div class="ms-auto d-flex">
+        <a class="btn btn-outline-primary me-2" href="{{ url_for('user.login') }}">Log In</a>
+        <a class="btn btn-primary" href="{{ url_for('user.register') }}">Sign Up</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- Hero Section -->
+<section class="container py-5 hero-section">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h1 class="display-4 fw-bold mb-3">
+        Simplify Your <span class="text-primary">Stock Management</span>
+      </h1>
+      <p class="lead text-muted">
+        StockEase empowers small businesses with a fast, easy-to-use solution to manage inventory and stay organized.
+      </p>
+      <div class="mt-4">
+        <a href="{{ url_for('user.register') }}" class="btn btn-lg btn-primary me-2">Get Started</a>
+        <a href="#features" class="btn btn-lg btn-outline-primary">Learn More</a>
+      </div>
+    </div>
+    <div class="col-md-6 text-center mt-4 mt-md-0">
+      <img src="{{ url_for('static', filename='img/hero-image.jpg') }}" class="img-fluid rounded shadow-sm" alt="Business owner using StockEase">
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-5 bg-light">
+  <div class="container text-center">
+    <h2 class="section-title fw-bold mb-3" data-aos="fade-up">Powerful Features</h2>
+    <p class="text-muted mb-5" data-aos="fade-up" data-aos-delay="100">
+      Everything you need to run your stock operations smoothly and efficiently.
+    </p>
+
+    <!-- Count-up stats -->
+    <div class="row mb-5" data-aos="zoom-in">
+      <div class="col-6 col-md-3 mb-3">
+        <h3 class="text-primary display-6" data-count="1500">0</h3>
+        <p class="text-muted">Products Managed</p>
+      </div>
+      <div class="col-6 col-md-3 mb-3">
+        <h3 class="text-primary display-6" data-count="300">0</h3>
+        <p class="text-muted">Warehouses Tracked</p>
+      </div>
+      <div class="col-6 col-md-3 mb-3">
+        <h3 class="text-primary display-6" data-count="95">0</h3>
+        <p class="text-muted">Efficiency Boost (%)</p>
+      </div>
+      <div class="col-6 col-md-3 mb-3">
+        <h3 class="text-primary display-6" data-count="10000">0</h3>
+        <p class="text-muted">Active Users</p>
+      </div>
+    </div>
+
+    <!-- Feature Cards with Modal -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+      {% for feature in features %}
+      <div class="col" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+        <div class="card h-100 shadow-sm p-4 border-0 text-center cursor-pointer" data-bs-toggle="modal" data-bs-target="#featureModal{{ loop.index }}">
+          <div class="text-primary fs-1 mb-3"><i class="bi {{ feature.icon }}"></i></div>
+          <h5 class="fw-bold">{{ feature.title }}</h5>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="featureModal{{ loop.index }}" tabindex="-1" aria-labelledby="featureModalLabel{{ loop.index }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="featureModalLabel{{ loop.index }}">
+                <i class="bi {{ feature.icon }} text-primary me-2"></i>{{ feature.title }}
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <p>{{ feature.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials - Carousel -->
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="section-title fw-bold">What Our Users Say</h2>
+    </div>
+    <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        {% for testimonial in testimonials %}
+        <div class="carousel-item {% if loop.first %}active{% endif %}">
+          <div class="d-flex flex-column align-items-center text-center px-3">
+            <img src="{{ testimonial.img }}" class="rounded-circle mb-3" width="120" height="120" alt="{{ testimonial.person }}">
+            <blockquote class="blockquote">
+              <p class="mb-3">“{{ testimonial.text }}”</p>
+            </blockquote>
+            <figcaption class="blockquote-footer">
+              {{ testimonial.person }} <span class="text-muted">from</span> <cite>{{ testimonial.company }}</cite>
+            </figcaption>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section class="bg-primary text-white text-center py-5">
+  <div class="container">
+    <h2 class="mb-3">Take Control of Your Inventory</h2>
+    <p class="mb-4">Join thousands of small businesses who trust StockEase to simplify their stock management.</p>
+    <a href="{{ url_for('user.register') }}" class="btn btn-lg btn-light text-primary px-5">Start Now</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-light text-center py-4">
+  <p class="mb-0 text-muted">© 2025 <a href="{{ url_for('index') }}" class="text-decoration-none text-primary">StockEase</a>. All rights reserved.</p>
+</footer>
+
+{% endblock %}

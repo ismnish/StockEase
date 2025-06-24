@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% from '_form_macros.html' import render_field, render_submit_btn %}
+
+{% block body %}
+<section class="d-flex align-items-center justify-content-center min-vh-100 bg-light py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-lg border-0">
+                    <div class="card-body p-5 bg-white rounded">
+                        <div class="text-center mb-4">
+                            <a href="{{ url_for('index') }}" class="text-decoration-none">
+                                <h1 class="brand-text fw-bold text-primary">StockEase</h1>
+                            </a>
+                            <p class="text-muted mb-0">Create your account</p>
+                        </div>
+
+                        <!-- Navigation between login and register -->
+                        <div class="d-flex justify-content-center mb-4">
+                            <a href="{{ url_for('user.register') }}" class="btn btn-outline-primary me-2 active">Register</a>
+                            <a href="{{ url_for('user.login') }}" class="btn btn-outline-secondary">Login</a>
+                        </div>
+
+                        <form action="{{ url_for('user.register') }}" method="POST" novalidate>
+                            {{ form.csrf_token }}
+
+                            <div class="form-floating mb-3">
+                                {{ form.name(class="form-control", placeholder="Full Name") }}
+                                <label for="{{ form.name.id }}">{{ form.name.label.text }}</label>
+                                {% for error in form.name.errors %}
+                                    <div class="text-danger small">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                {{ form.business_name(class="form-control", placeholder="Business Name") }}
+                                <label for="{{ form.business_name.id }}">{{ form.business_name.label.text }}</label>
+                                {% for error in form.business_name.errors %}
+                                    <div class="text-danger small">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                {{ form.email(class="form-control", placeholder="name@example.com") }}
+                                <label for="{{ form.email.id }}">{{ form.email.label.text }}</label>
+                                {% for error in form.email.errors %}
+                                    <div class="text-danger small">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                {{ form.password(class="form-control", placeholder="Password") }}
+                                <label for="{{ form.password.id }}">{{ form.password.label.text }}</label>
+                                {% for error in form.password.errors %}
+                                    <div class="text-danger small">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="form-floating mb-4">
+                                {{ form.retype_password(class="form-control", placeholder="Retype Password") }}
+                                <label for="{{ form.retype_password.id }}">{{ form.retype_password.label.text }}</label>
+                                {% for error in form.retype_password.errors %}
+                                    <div class="text-danger small">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            {{ render_submit_btn(form.submit, class="btn btn-primary w-100") }}
+                        </form>
+
+                        <p class="mt-4 text-center small text-muted">
+                            By registering, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

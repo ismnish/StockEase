@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% from '_form_macros.html' import render_field, render_submit_btn %}
+
+{% block body %}
+<section class="d-flex align-items-center justify-content-center min-vh-100 bg-light py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-lg border-0">
+                    <div class="card-body p-5 bg-white rounded">
+                        <!-- Logo & Brand -->
+                        <div class="text-center mb-4">
+                            <a href="{{ url_for('index') }}" class="text-decoration-none">
+                                <h1 class="brand-text fw-bold text-primary">StockEase</h1>
+                            </a>
+                            <p class="text-muted mb-0">Welcome back! Please login to your account.</p>
+                        </div>
+
+                        <!-- Flash messages -->
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                        <div class="mb-3">
+                            {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        {% endwith %}
+
+                        <!-- Nav toggle -->
+                        <div class="d-flex justify-content-center mb-4">
+                            <a href="{{ url_for('user.register') }}" class="btn btn-outline-secondary me-2">Register</a>
+                            <a href="{{ url_for('user.login') }}" class="btn btn-outline-primary active">Login</a>
+                        </div>
+
+                        <!-- Login form -->
+                        <form action="{{ url_for('user.login') }}" method="POST" novalidate>
+                            {{ form.csrf_token }}
+
+                            <div class="form-floating mb-3">
+                                {{ form.email(class="form-control", placeholder="Email") }}
+                                <label for="{{ form.email.id }}">{{ form.email.label.text }}</label>
+                                {% for error in form.email.errors %}
+                                    <div class="text-danger small">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="form-floating mb-4">
+                                {{ form.password(class="form-control", placeholder="Password") }}
+                                <label for="{{ form.password.id }}">{{ form.password.label.text }}</label>
+                                {% for error in form.password.errors %}
+                                    <div class="text-danger small">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            {{ render_submit_btn(form.submit, class="btn btn-primary w-100") }}
+                        </form>
+
+                        <p class="mt-4 text-center small text-muted">
+                            Forgot your password? <a href="{{ url_for('user.forgot_password') }}">Reset it here</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
